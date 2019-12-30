@@ -112,7 +112,7 @@ export class SVGRenderer extends Renderer {
 		let offsetTop = this.options.lineWidth / 3;
         
         if (this._hasScale) {
-			offsetTop += this.options.scaleLength + 6;
+			offsetTop += this.options.scaleLength + 10;
         }
         
 		const path = [

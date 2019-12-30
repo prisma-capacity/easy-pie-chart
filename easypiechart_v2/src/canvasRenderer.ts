@@ -16,7 +16,7 @@ export class CanvasRenderer extends Renderer {
         this._canvas = document.createElement('canvas');
         this._ctx = this._canvas.getContext('2d');
         el.appendChild(this._canvas);
-        
+        this._canvas.setAttribute('style', 'position: absolute;top: 0;left: 0;')
         // canvas on retina devices
         if (window.devicePixelRatio > 1) {
             this._canvas.style.width = this._canvas.style.height = [this.options.size, 'px'].join('');

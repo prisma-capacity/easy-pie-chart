@@ -34,7 +34,10 @@ export class EasyPieChart {
     private options: any;
     private renderer: Renderer;
     private currentValue: number = 0;
+    private element: HTMLElement;
+    private percent: string | number;
     constructor(el: HTMLElement, options: {[index: string] : any} | null){
+        this.element = el;
         if(options !== null){    
             // merge user options into default options
             for (var i in options) {
@@ -48,13 +51,22 @@ export class EasyPieChart {
             }
         }
         this.options = this.defaultOptions;
-        console.log(this.options);
-        // detect present renderer
+        
+        this.element.setAttribute('style', 'position: relative;display: inline-block;text-align: center;')
+        this.element.style.width = this.options.size + 'px';
+        this.element.style.height = this.options.size + 'px';
+        this.percent = (el.dataset.percent !== undefined) ? el.dataset.percent : '';
+        
+        const span = document.createElement('span');
+        let content = this.element.appendChild(span);
+        content.setAttribute('style', 'line-height: 110px; z-index: 2;');
+        content.textContent = this.percent;
+        
         if (this.options.renderer === 'SVG') {
-            this.renderer = new SVGRenderer(el, this.options);
+            this.renderer = new SVGRenderer(this.element, this.options);
         } else {
             // Canvas is default
-            this.renderer = new CanvasRenderer(el, this.options);
+            this.renderer = new CanvasRenderer(this.element, this.options);
         }
 
         // process earlier animate option to avoid bc breaks
@@ -71,12 +83,11 @@ export class EasyPieChart {
 				enabled: this.options.animate
 			};
         }
-        
         // initial draw
         this.renderer.draw(this.currentValue);
         // initial update
-		if (el.dataset && el.dataset.percent) {
-			this.update(parseFloat(el.dataset.percent));
+		if (el.dataset && this.percent) {
+			this.update(parseFloat(this.percent));
 		} else if (el.getAttribute && el.getAttribute('data-percent')) {
 			this.update(parseFloat(el.getAttribute('data-percent')!));
 		}
@@ -92,8 +103,8 @@ export class EasyPieChart {
             this.renderer.animate(this.currentValue, newValue);
 		} else {
 			this.renderer.draw(newValue);
-		}
-		this.currentValue = newValue;
+        }
+        this.currentValue = newValue;
 		return this;
     }
     
