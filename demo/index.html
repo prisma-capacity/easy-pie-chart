@@ -19,6 +19,10 @@
 		<span class="percent"></span>
 	</span>
 
+	<div class="company-mood chart" data-percent="77">
+		<span class="percent">12</span>
+    </div>
+
 	<span class="btn js_update">Update chart</span>
 
 	<script src="../dist/easypiechart.js"></script>
@@ -35,6 +39,18 @@
 			lineCap: 'butt',
 			onStep: function(from, to, percent) {
 				this.el.children[0].innerHTML = Math.round(percent);
+			}
+		});
+
+		var chart = window.chart = new EasyPieChart(document.querySelector('.company-mood'),  {
+			easing: 'easeOutElastic',
+			delay: 3000,
+			barColor: '#00ab03',
+			lineWidth: 10,
+			scaleColor: '#00378b',
+			lineCap: 'butt',
+			onStep: function(from, to, percent) {
+				if(percent < 12) this.el.children[0].innerHTML = Math.round(percent);
 			}
 		});
 

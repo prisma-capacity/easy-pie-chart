@@ -1,19 +1,10 @@
-import { CanvasRenderer } from './CanvasRenderer'
+import { CanvasRenderer } from './canvasRenderer'
+import { EasyPieChart } from './easyPieChart'
 
-const canvas = new CanvasRenderer(document.getElementById('chart')!, {
-    barColor: '#ef1e25',
-    trackColor: '#f9f9f9',
-    scaleColor: '#dfe0e0',
-    scaleLength: 5,
-    lineCap: 'round',
-    lineWidth: 10,
-    trackWidth: undefined,
-    size: 200,
-    rotate: 0,
-    animate: {
-        duration: 1000,
-        enabled: true
-    }
+const easy = new EasyPieChart(document.getElementById("canvas-chart")!, null);
+
+const svg = new EasyPieChart(document.getElementById("svg-chart")!, {
+    renderer: "SVG",
+    lineWidth: 10
 });
 
-canvas.draw(80)
